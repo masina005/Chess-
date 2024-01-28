@@ -83,6 +83,9 @@ class ChessGame:
                 self.selection = click_coords
                 self.get_selected_piece().update_legal_moves(self.board.grid)
 
+    def print_ass():
+        pass
+
     def key_handle(self, key):
         if key == pygame.K_LEFT:
             self.selection_x -= 1
