@@ -91,7 +91,7 @@ class ChessGame:
         if key == pygame.K_LEFT:
             self.selection_x -= 1
 
-    def chessboard_update(self):
+    def chessboard_update(self): #Updates chessboard
         win.blit(self.board.img, (0, 0))
         if self.selection != None:
             win.blit(self.board.highlite_img, self.get_screen_coords(self.selection))
