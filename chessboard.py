@@ -1,4 +1,5 @@
 import pygame
+import os
 
 class Piece:
     def __init__(self, pos, color):
@@ -12,7 +13,7 @@ class Piece:
     def change_pos(self, new_pos):
         self.pos = new_pos
         self.x, self.y = new_pos[0], new_pos[1]
-
+        
 class Pawn(Piece):
     def __init__(self, pos, color):
         super().__init__(pos, color)
@@ -35,15 +36,16 @@ class Pawn(Piece):
                 for x in range(len(grid[y])):
 
                     # Check if moving forward
-                    moving_forward = y == self.y - 1
+                    moving_forward = y == self.y - 1 and isinstance(grid[x][y], EmptySquare)
                     # Check if moving by 1
                     moving_by_1 = x == self.x
                     # Check if taking a piece
                     taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "black"
+                    not_taking_same_color = grid[x][y].color != self.color
                     # Check if starting a jump
                     start_jump = y == self.y - 2 and x == self.x and self.y == 6
                     # Check if the move is legal
-                    if (moving_forward and (moving_by_1 or taking_piece)) or start_jump:
+                    if ((moving_forward and (moving_by_1 or taking_piece)) or start_jump) and not_taking_same_color:
                         # Add the move to the list of legal moves
                         self.legal_moves.append([x, y])
 
@@ -54,15 +56,16 @@ class Pawn(Piece):
                 for x in range(len(grid[y])):
 
                     # Check if moving forward
-                    moving_forward = y == self.y + 1  # For black, moving forward means increasing the row index
+                    moving_forward = y == self.y + 1 and isinstance(grid[x][y], EmptySquare)
                     # Check if moving by 1
                     moving_by_1 = x == self.x
                     # Check if taking a piece
                     taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "white"
+                    not_taking_same_color = grid[x][y].color != self.color
                     # Check if starting a jump
                     start_jump = y == self.y + 2 and x == self.x and self.y == 1
                     # Check if the move is legal
-                    if (moving_forward and (moving_by_1 or taking_piece)) or start_jump:
+                    if ((moving_forward and (moving_by_1 or taking_piece)) or start_jump) and not_taking_same_color:
                         # Add the move to the list of legal moves
                         self.legal_moves.append([x, y])
 

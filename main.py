@@ -68,13 +68,14 @@ class ChessGame:
         return (x, y)
 
     def mouse_handle(self, position):
-        x, y  = position[0], position[1]
+        x, y = position[0], position[1]
 
-        # If click on the chessboard
-        if x > self.edge_size and x < height - self.edge_size and y > self.edge_size and y < 800 - self.edge_size:
+        # If click is within the chessboard
+        if (self.edge_size < x < height - self.edge_size) and (self.edge_size < y < 800 - self.edge_size):
             click_coords = self.get_chessboard_coords(position)
 
             if list(click_coords) in self.get_selected_piece().legal_moves:
+                # Move the selected piece to the clicked coordinates
                 self.board.grid[click_coords[0]][click_coords[1]] = self.get_selected_piece()
                 self.get_selected_piece().change_pos([click_coords[0], click_coords[1]])
                 self.board.grid[self.selection[0]][self.selection[1]] = EmptySquare()
@@ -115,12 +116,12 @@ class ChessGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        self.mouse_handle(event.pos)
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    self.mouse_handle(event.pos)
 
             self.screen_update()
 
 if __name__ == "__main__":
     game = ChessGame()
     game.main()
+    
