@@ -45,7 +45,7 @@ class Pawn(Piece):
                     # Check if starting a jump
                     start_jump = y == self.y - 2 and x == self.x and self.y == 6
                     # Check if the move is legal
-                    if ((moving_forward and (moving_by_1 or taking_piece)) or start_jump) and not_taking_same_color:
+                    if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump)
                         # Add the move to the list of legal moves
                         self.legal_moves.append([x, y])
 
@@ -65,7 +65,7 @@ class Pawn(Piece):
                     # Check if starting a jump
                     start_jump = y == self.y + 2 and x == self.x and self.y == 1
                     # Check if the move is legal
-                    if ((moving_forward and (moving_by_1 or taking_piece)) or start_jump) and not_taking_same_color:
+                    if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump):
                         # Add the move to the list of legal moves
                         self.legal_moves.append([x, y])
 
@@ -91,7 +91,7 @@ class Rook(Piece):
                 moving_in_row = y == self.y
                 moving_in_column = x == self.x
                 moving = not (self.x == x and self.y == y)
-                not_taking_same_color = grid[x][y].color != self.color
+                not_taking_same_color = grid[x][y].color != self.color      
                 # Check if the move is legal
                 if (moving_in_row or moving_in_column) and moving and not_taking_same_color and self.clear_path(grid, [x, y]):
                     # Add the move to the list of legal moves
