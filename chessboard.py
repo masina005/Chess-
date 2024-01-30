@@ -20,10 +20,9 @@ class Pawn(Piece):
         self.img = pygame.transform.scale(pygame.image.load(self.get_img_path()), self.size)
 
     def get_img_path(self):
-        if self.color == "white":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\white-pawn.png"
-        elif self.color == "black":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\black-pawn.png"
+        base_path = r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images"
+        filename = f"{self.color}-pawn.png"
+        return os.path.join(base_path, filename)
         
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
@@ -36,16 +35,16 @@ class Pawn(Piece):
                 for x in range(len(grid[y])):
 
                     # Check if moving forward
-                    moving_forward = y == self.y - 1 and isinstance(grid[x][y], EmptySquare)
+                    moving_forward = y == self.y - 1
                     # Check if moving by 1
-                    moving_by_1 = x == self.x
+                    moving_by_1 = x == self.x and isinstance(grid[x][y], EmptySquare)
                     # Check if taking a piece
                     taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "black"
                     not_taking_same_color = grid[x][y].color != self.color
                     # Check if starting a jump
                     start_jump = y == self.y - 2 and x == self.x and self.y == 6
                     # Check if the move is legal
-                    if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump)
+                    if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump):
                         # Add the move to the list of legal moves
                         self.legal_moves.append([x, y])
 
@@ -56,9 +55,9 @@ class Pawn(Piece):
                 for x in range(len(grid[y])):
 
                     # Check if moving forward
-                    moving_forward = y == self.y + 1 and isinstance(grid[x][y], EmptySquare)
+                    moving_forward = y == self.y + 1
                     # Check if moving by 1
-                    moving_by_1 = x == self.x
+                    moving_by_1 = x == self.x and isinstance(grid[x][y], EmptySquare)
                     # Check if taking a piece
                     taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "white"
                     not_taking_same_color = grid[x][y].color != self.color
@@ -76,10 +75,9 @@ class Rook(Piece):
         self.img = pygame.transform.scale(pygame.image.load(self.get_img_path()), self.size)
 
     def get_img_path(self):
-        if self.color == "white":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\white-rook.png"
-        elif self.color == "black":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\black-rook.png"
+        base_path = r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images"
+        filename = f"{self.color}-rook.png"
+        return os.path.join(base_path, filename)
 
 
     def update_legal_moves(self, grid):
@@ -120,10 +118,9 @@ class Knight(Piece):
         self.img = pygame.transform.scale(pygame.image.load(self.get_img_path()), self.size)
 
     def get_img_path(self):
-        if self.color == "white":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\white-knight.png"
-        elif self.color == "black":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\black-knight.png"
+        base_path = r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images"
+        filename = f"{self.color}-knight.png"
+        return os.path.join(base_path, filename)
         
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
@@ -143,10 +140,9 @@ class Bishop(Piece):
         self.img = pygame.transform.scale(pygame.image.load(self.get_img_path()), self.size)
 
     def get_img_path(self):
-        if self.color == "white":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\white-bishop.png"
-        elif self.color == "black":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\black-bishop.png"
+        base_path = r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images"
+        filename = f"{self.color}-bishop.png"
+        return os.path.join(base_path, filename)
 
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
@@ -176,10 +172,9 @@ class Queen(Piece):
         self.img = pygame.transform.scale(pygame.image.load(self.get_img_path()), self.size)
 
     def get_img_path(self):
-        if self.color == "white":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\white-queen.png"
-        elif self.color == "black":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\black-queen.png"
+        base_path = r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images"
+        filename = f"{self.color}-queen.png"
+        return os.path.join(base_path, filename)
 
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
@@ -226,10 +221,9 @@ class King(Piece):
         self.img = pygame.transform.scale(pygame.image.load(self.get_img_path()), self.size)
 
     def get_img_path(self):
-        if self.color == "white":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\white-king.png"
-        elif self.color == "black":
-            return r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images\black-king.png"
+        base_path = r"C:\Users\ADMIN\OneDrive\Plocha\Coding\Python\Chess!\images"
+        filename = f"{self.color}-king.png"
+        return os.path.join(base_path, filename)
         
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
@@ -240,6 +234,8 @@ class King(Piece):
                 legal_move = abs(self.x - x) <= 1 and abs(self.y - y) <= 1
                 moving = not (self.x == x and self.y == y)
                 not_taking_same_color = grid[x][y].color != self.color
+
+
 
                 if legal_move and moving and not_taking_same_color:
                     self.legal_moves.append([x, y])
