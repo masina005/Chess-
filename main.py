@@ -76,16 +76,12 @@ class ChessGame:
 
             if list(click_coords) in self.get_selected_piece().legal_moves:
                 # Move the selected piece to the clicked coordinates
-                self.board.grid[click_coords[0]][click_coords[1]] = self.get_selected_piece()
-                self.get_selected_piece().change_pos([click_coords[0], click_coords[1]])
-                self.board.grid[self.selection[0]][self.selection[1]] = EmptySquare()
+                self.board.move_piece(self.get_selected_piece(), list(click_coords))
                 self.selection = None
             else:
                 self.selection = click_coords
                 self.get_selected_piece().update_legal_moves(self.board.grid)
 
-    def print_ass():
-        pass
 
     def key_handle(self, key):
         if key == pygame.K_LEFT:

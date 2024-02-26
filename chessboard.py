@@ -10,7 +10,7 @@ class Piece:
 
         self.legal_moves = []
 
-    def change_pos(self, new_pos):
+    def move(self, new_pos):
         self.pos = new_pos
         self.x, self.y = new_pos[0], new_pos[1]
         
@@ -240,6 +240,7 @@ class King(Piece):
                 if legal_move and moving and not_taking_same_color:
                     self.legal_moves.append([x, y])
 
+
 class EmptySquare():
     def __init__(self):
         self.color = "e"
@@ -286,3 +287,10 @@ class Chessboard():
 
         for i in range(8):
             self.grid[i][1] = Pawn([i, 1], "black")
+
+    def move_piece(self, piece, new_pos):
+        # Check if the move is legal and update the grid
+        if new_pos in piece.legal_moves:
+            self.grid[piece.x][piece.y] = EmptySquare()
+            piece.move(new_pos)
+            self.grid[piece.x][piece.y] = piece
