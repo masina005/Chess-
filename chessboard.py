@@ -27,48 +27,39 @@ class Pawn(Piece):
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
 
-        # Check if the color is white
+        # Adjust operations based on color
         if self.color == "white":
-            # Iterate through the rows of the grid
-            for y in range(len(grid)):
-                # Iterate through the columns of the grid
-                for x in range(len(grid[y])):
+            a = -1
+            b = -2
+            c = 6
 
-                    # Check if moving forward
-                    moving_forward = y == self.y - 1
-                    # Check if moving by 1
-                    moving_by_1 = x == self.x and isinstance(grid[x][y], EmptySquare)
-                    # Check if taking a piece
-                    taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "black"
-                    not_taking_same_color = grid[x][y].color != self.color
-                    # Check if starting a jump
-                    start_jump = y == self.y - 2 and x == self.x and self.y == 6
-                    # Check if the move is legal
-                    if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump):
-                        # Add the move to the list of legal moves
-                        self.legal_moves.append([x, y])
+        elif self.color == "black":
+            a = 1
+            b = 2
+            c = +
+        
+        # Iterate through the rows of the grid
+        for row in grid:
+            y = grid.index(row)
+            
+            # Iterate through the columns of the grid
+            for column in row:
+                x = row.index(column)
 
-        if self.color == "black":
-            # Iterate through the rows of the grid
-            for y in range(len(grid)):
-                # Iterate through the columns of the grid
-                for x in range(len(grid[y])):
-
-                    # Check if moving forward
-                    moving_forward = y == self.y + 1
-                    # Check if moving by 1
-                    moving_by_1 = x == self.x and isinstance(grid[x][y], EmptySquare)
-                    # Check if taking a piece
-                    taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "white"
-                    not_taking_same_color = grid[x][y].color != self.color
-                    # Check if starting a jump
-                    start_jump = y == self.y + 2 and x == self.x and self.y == 1
-                    # Check if the move is legal
-                    if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump):
-                        # Add the move to the list of legal moves
-                        self.legal_moves.append([x, y])
-
-
+                # Check if moving forward
+                moving_forward = y == self.y + a
+                # Check if moving by 1
+                moving_by_1 = x == self.x and isinstance(grid[x][y], EmptySquare)
+                # Check if taking a piece
+                taking_piece = (x == self.x + 1 or x == self.x - 1) and grid[x][y].color == "black"
+                not_taking_same_color = grid[x][y].color != self.color
+                # Check if starting a jump
+                start_jump = y == self.y + b and x == self.x and self.y == c
+                # Check if the move is legal
+                if ((moving_forward and ((moving_by_1 and not_taking_same_color) or taking_piece) or (start_jump and not_taking_same_color))) or (start_jump):
+                    # Add the move to the list of legal moves
+                    self.legal_moves.append([x, y])
+                    
 class Rook(Piece):
     def __init__(self, pos, color):
         super().__init__(pos, color)
@@ -79,13 +70,17 @@ class Rook(Piece):
         filename = f"{self.color}-rook.png"
         return os.path.join(base_path, filename)
 
-
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
+
         # Iterate through the rows of the grid
-        for y in range(len(grid)):
+        for row in grid:
+            y = grid.index(row)
+            
             # Iterate through the columns of the grid
-            for x in range(len(grid[y])):
+            for column in row:
+                x = row.index(column)
+                
                 moving_in_row = y == self.y
                 moving_in_column = x == self.x
                 moving = not (self.x == x and self.y == y)
@@ -124,10 +119,15 @@ class Knight(Piece):
         
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
+
         # Iterate through the rows of the grid
-        for y in range(len(grid)):
+        for row in grid:
+            y = grid.index(row)
+            
             # Iterate through the columns of the grid
-            for x in range(len(grid[y])):
+            for column in row:
+                x = row.index(column)
+                
                 move_1 = abs(self.x - x) == 2 and abs(self.y - y) == 1
                 move_2 = abs(self.x - x) == 1 and abs(self.y - y) == 2
                 not_taking_same_color = grid[x][y].color != self.color
@@ -146,10 +146,15 @@ class Bishop(Piece):
 
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
+
         # Iterate through the rows of the grid
-        for y in range(len(grid)):
+        for row in grid:
+            y = grid.index(row)
+            
             # Iterate through the columns of the grid
-            for x in range(len(grid[y])):
+            for column in row:
+                x = row.index(column)
+                
                 legal_moves = abs(self.x - x) == abs(self.y - y)
                 moving = not (self.x == x and self.y == y)
                 not_taking_same_color = grid[x][y].color != self.color
@@ -178,10 +183,15 @@ class Queen(Piece):
 
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
+
         # Iterate through the rows of the grid
-        for y in range(len(grid)):
+        for row in grid:
+            y = grid.index(row)
+            
             # Iterate through the columns of the grid
-            for x in range(len(grid[y])):
+            for column in row:
+                x = row.index(column)
+                
                 moving = not (self.x == x and self.y == y)
 
                 bishop_moves = abs(self.x - x) == abs(self.y - y)
@@ -199,12 +209,14 @@ class Queen(Piece):
             for y in range(self.y + step, pos[1], step):
                 if isinstance(grid[self.x][y], Piece):
                     return False
+                    
         elif pos[1] == self.y:
             # Check if moving horizontally
             step = 1 if pos[0] > self.x else -1
             for x in range(self.x + step, pos[0], step):
                 if isinstance(grid[x][self.y], Piece):
                     return False
+                    
         elif abs(pos[0] - self.x) == abs(pos[1] - self.y):
             # Check if moving diagonally
             step_x = 1 if pos[0] > self.x else -1
@@ -227,15 +239,18 @@ class King(Piece):
         
     def update_legal_moves(self, grid):
         self.legal_moves.clear()
+        
         # Iterate through the rows of the grid
-        for y in range(len(grid)):
+        for row in grid:
+            y = grid.index(row)
+            
             # Iterate through the columns of the grid
-            for x in range(len(grid[y])):     
+            for column in row:
+                x = row.index(column)
+                
                 legal_move = abs(self.x - x) <= 1 and abs(self.y - y) <= 1
                 moving = not (self.x == x and self.y == y)
                 not_taking_same_color = grid[x][y].color != self.color
-
-
 
                 if legal_move and moving and not_taking_same_color:
                     self.legal_moves.append([x, y])
